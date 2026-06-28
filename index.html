@@ -1,81 +1,51 @@
 <!doctype html>
-<html lang="nb">
+<html lang="no">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Haugarfamiliens VM-tipping</title>
 <style>
-:root{--blue:#0b3f93;--blue2:#082a63;--gold:#f3c94c;--ink:#10213d;--muted:#6b7280;--bg:#f4f7fc;--card:#fff;--border:#dbe3ef;--green:#16a34a;}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eef4ff,#fff);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
-.hero{background:linear-gradient(135deg,var(--blue),var(--blue2));color:white;text-align:center;padding:34px 18px 30px;border-bottom:8px solid var(--gold)}
-.hero h1{font-size:clamp(34px,7vw,72px);line-height:.98;margin:0 0 18px;font-weight:900;letter-spacing:.03em;text-transform:uppercase}.hero p{font-size:clamp(17px,2.4vw,25px);margin:0;opacity:.95}
-.wrap{max-width:1180px;margin:0 auto;padding:22px 14px 60px}.card{background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:0 12px 28px rgba(20,39,82,.08);padding:22px;margin:18px 0}.card h2{font-size:clamp(30px,4vw,45px);margin:0 0 18px;color:#09285d}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-weight:800;margin:0 0 8px;font-size:18px}.field input{width:100%;padding:15px 18px;border:2px solid var(--border);border-radius:14px;font-size:18px;background:white}.note{color:var(--muted);font-size:18px;line-height:1.45}.ok{background:#ecfdf5;color:#065f46;padding:12px 16px;border-radius:14px;font-weight:800;margin-top:14px}.points{font-size:18px;line-height:1.5}.round-title{display:flex;align-items:center;gap:10px;margin:28px 0 12px;border-top:4px solid var(--blue2);padding-top:18px}.round-title h3{margin:0;font-size:28px;color:#09285d}.badge{display:inline-flex;align-items:center;justify-content:center;background:var(--gold);color:#332600;font-weight:900;border-radius:999px;padding:4px 10px;font-size:14px}.matches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.match{background:#fff;border:1px solid var(--border);border-radius:18px;padding:13px;box-shadow:0 6px 18px rgba(20,39,82,.04)}.match-label{font-weight:800;color:#475569;margin-bottom:9px;font-size:14px}.teams{display:grid;grid-template-columns:1fr 1fr;gap:10px}.team{appearance:none;border:2px solid #d1d9e8;background:white;color:#17233b;border-radius:13px;padding:14px 10px;min-height:54px;font-size:16px;font-weight:800;cursor:pointer;transition:.12s}.team:hover{border-color:var(--gold)}.team.selected{background:var(--blue);color:#fff;border-color:var(--gold);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}.team:disabled{cursor:not-allowed;background:#f3f4f6;color:#8b95a5;border-color:#dbe3ef}.extras{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.btn{border:0;border-radius:16px;padding:16px 18px;font-size:18px;font-weight:900;cursor:pointer}.btn.gold{background:var(--gold);color:#10213d}.btn.blue{background:var(--blue);color:white}.btn.white{background:white;color:var(--blue);border:2px solid var(--border)}textarea{width:100%;min-height:150px;border:2px solid var(--border);border-radius:16px;padding:16px;font-size:14px;color:#334155;margin-top:16px}.hiddenSummary{margin-top:22px;color:#94a3b8;font-size:13px}.small{font-size:14px;color:#64748b;margin-top:8px}footer{text-align:center;color:#64748b;padding:22px}.printonly{display:none}
-@media(max-width:760px){.wrap{padding:14px 10px 40px}.grid2,.matches,.extras,.actions{grid-template-columns:1fr}.card{border-radius:18px;padding:18px}.teams{gap:8px}.team{font-size:15px;padding:13px 8px}.hero{padding-top:28px}.round-title h3{font-size:25px}}
-@media print{body{background:#fff}.hero{padding:18px;border-bottom:3px solid #000;color:#000;background:#fff}.wrap{max-width:none;padding:0}.card{box-shadow:none;border:1px solid #999;margin:10px 0;padding:14px}.actions,textarea,.ok,.note,.small{display:none}.matches{grid-template-columns:repeat(2,1fr);gap:8px}.match{break-inside:avoid;padding:8px}.team{border:1px solid #777;color:#000;background:#fff;padding:8px;min-height:36px}.team.selected{background:#eee;color:#000;border-color:#000}.printonly{display:block}}
+:root{--blue:#0b3f95;--blue2:#072b68;--gold:#f0c84b;--bg:#eef3fb;--text:#0b1d3a;--muted:#647084;--card:#fff;--line:#d6deea;--ok:#0b8f55}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:white;text-align:center;padding:34px 16px 30px;border-bottom:8px solid var(--gold)}h1{font-size:clamp(32px,7vw,68px);line-height:.95;margin:0 0 18px;font-weight:900;letter-spacing:1px;text-transform:uppercase}header p{font-size:clamp(17px,3vw,26px);margin:0 auto;max-width:900px}.wrap{max-width:1180px;margin:0 auto;padding:22px 14px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;margin:0 0 22px;box-shadow:0 10px 30px rgba(5,31,77,.08)}h2{font-size:34px;margin:0 0 18px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;font-weight:800;font-size:18px;margin:10px 0 8px}input,textarea{width:100%;font-size:20px;border:2px solid var(--line);border-radius:14px;padding:15px 16px;background:#fff;color:var(--text)}.points{font-size:18px;line-height:1.45;color:var(--muted)}.round{margin:28px 0}.round-title{display:flex;align-items:center;gap:10px;border-bottom:4px solid var(--blue);padding-bottom:8px;margin-bottom:14px}.round-title h3{font-size:28px;margin:0}.badge{background:var(--gold);color:#4a3500;border-radius:999px;padding:4px 10px;font-weight:900}.matches{display:grid;grid-template-columns:1fr 1fr;gap:14px}.match{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}.match-name{font-size:13px;color:var(--muted);font-weight:800;margin:0 0 8px}.teams{display:grid;grid-template-columns:1fr 1fr;gap:8px}.team{min-height:50px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--text);font-size:18px;font-weight:800;padding:10px;cursor:pointer}.team:disabled{opacity:.45;cursor:not-allowed}.team.selected{background:var(--blue);border-color:var(--gold);color:white}.team.placeholder{color:#8b95a5;font-weight:700}.extras{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.actions{display:grid;gap:12px}.btn{border:0;border-radius:14px;padding:18px 16px;font-weight:900;font-size:21px;cursor:pointer;text-align:center;text-decoration:none}.btn.gold{background:var(--gold);color:#17264a}.btn.blue{background:var(--blue);color:white}.btn.white{background:#fff;color:var(--blue);border:2px solid var(--line)}#status{font-weight:900;color:var(--ok);margin-top:10px}.output{height:140px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px}.small{color:var(--muted);font-size:15px;line-height:1.4}@media(max-width:760px){.grid2,.matches,.extras{grid-template-columns:1fr}h2{font-size:30px}.card{padding:18px}.team{font-size:16px;min-height:48px}.round-title h3{font-size:24px}}@media print{header,.actions,.small,#status{display:none}.wrap{padding:0}.card{box-shadow:none;border:1px solid #aaa;break-inside:avoid}.matches{grid-template-columns:1fr 1fr}.team{border:1px solid #aaa;color:#000;background:#fff}.team.selected{background:#eee;color:#000}}
 </style>
 </head>
 <body>
-<header class="hero"><h1>Haugarfamiliens<br>VM-tipping</h1><p>Trykk på laget du tror går videre. Neste runde oppdateres automatisk.</p></header>
+<header><h1>Haugarfamiliens<br>VM-tipping</h1><p>Trykk på laget du tror går videre. Neste runde oppdateres automatisk.</p></header>
 <main class="wrap">
-<section class="card"><h2>Deltaker</h2><div class="grid2"><div class="field"><label for="name">Navn</label><input id="name" placeholder="Skriv navn"></div><div class="field"><label for="mobile">Mobil</label><input id="mobile" placeholder="Skriv mobilnummer" inputmode="tel"></div></div><div class="ok" id="status">Interaktivitet: OK</div></section>
+<section class="card"><h2>Deltaker</h2><div class="grid2"><div><label for="name">Navn</label><input id="name" placeholder="Skriv navn" autocomplete="name"></div><div><label for="phone">Mobil</label><input id="phone" placeholder="Skriv mobilnummer" inputmode="tel"></div></div><div id="status">Interaktivitet: OK</div></section>
 <section class="card"><h2>Poeng</h2><div class="points"><b>1/16:</b> 1 poeng per riktig lag · <b>1/8:</b> 2 poeng · <b>Kvart:</b> 3 poeng · <b>Semi:</b> 4 poeng · <b>Vinner:</b> 5 poeng · finaleresultat/toppscorer/beste spiller: 3 poeng hver.</div></section>
 <section class="card"><h2>Sluttspilltre</h2><div id="bracket"></div></section>
-<section class="card"><h2>Ekstra tips</h2><div class="extras"><div class="field"><label for="finalScore">Finaleresultat</label><input id="finalScore" placeholder="f.eks. 2-1"></div><div class="field"><label for="topScorer">Toppscorer</label><input id="topScorer" placeholder="Navn på spiller"></div><div class="field"><label for="bestPlayer">Beste spiller</label><input id="bestPlayer" placeholder="Navn på spiller"></div></div><div class="actions"><button class="btn gold" id="makeLine">Lag innsendingslinje</button><button class="btn white" id="copyLine">Kopier innsendingslinje</button><button class="btn blue" id="sendMail">📧 Send inn tips</button><button class="btn white" onclick="window.print()">Skriv ut</button><button class="btn white" id="reset">Nullstill</button></div><textarea id="summary" placeholder="Innsendingslinjen kommer her."></textarea><div class="small">Tips: Trykk «Lag innsendingslinje» før du sender. E-postprogrammet åpnes med tipset i meldingen.</div><div class="hiddenSummary">Admin: samme innsendingslinje kan kopieres fra feltet over.</div></section>
-</main><footer>Haugarfamiliens VM-tipping</footer>
+<section class="card"><h2>Ekstra tips</h2><div class="extras"><div><label for="finalScore">Finaleresultat</label><input id="finalScore" placeholder="f.eks. 2-1"></div><div><label for="topScorer">Toppscorer</label><input id="topScorer" placeholder="Navn på spiller"></div><div><label for="bestPlayer">Beste spiller</label><input id="bestPlayer" placeholder="Navn på spiller"></div></div></section>
+<section class="card"><h2>Send inn</h2><div class="actions"><button class="btn gold" id="makeLine">Lag innsendingslinje</button><button class="btn white" id="copyLine">Kopier innsendingslinje</button><a class="btn blue" id="mailBtn" href="#">📧 Send inn tips</a><button class="btn white" onclick="window.print()">Skriv ut</button><button class="btn white" id="resetBtn">Nullstill</button></div><label for="line">Innsendingslinje</label><textarea id="line" class="output" readonly placeholder="Innsendingslinjen kommer her."></textarea><p class="small">Send-knappen åpner e-post. Dersom e-postappen ikke tar med teksten, kopier innsendingslinjen og lim den inn i e-posten.</p></section>
+</main>
 <script>
-(function(){
-const initial=[['Sør-Afrika','Canada'],['Nederland','Marokko'],['Tyskland','Paraguay'],['Frankrike','Sverige'],['Portugal','Kroatia'],['Spania','Østerrike'],['USA','Bosnia-Hercegovina'],['Belgia','Senegal'],['Brasil','Japan'],['Elfenbenskysten','Norge'],['Mexico','Ecuador'],['England','DR Kongo'],['Argentina','Kapp Verde'],['Australia','Egypt'],['Sveits','Algerie'],['Colombia','Ghana']];
+const initial=[['Sør-Afrika','Canada'],['Brasil','Japan'],['Tyskland','Paraguay'],['Nederland','Marokko'],['Elfenbenskysten','Norge'],['Frankrike','Sverige'],['Mexico','Ecuador'],['England','DR Kongo'],['Belgia','Senegal'],['USA','Bosnia-Hercegovina'],['Spania','Østerrike'],['Portugal','Kroatia'],['Sveits','Algerie'],['Australia','Egypt'],['Argentina','Kapp Verde'],['Colombia','Ghana']];
 const rounds=[{key:'r32',title:'1/16-finale',points:1,count:16},{key:'r16',title:'1/8-finale',points:2,count:8},{key:'qf',title:'Kvartfinale',points:3,count:4},{key:'sf',title:'Semifinale',points:4,count:2},{key:'f',title:'Finale',points:5,count:1}];
-const state={r32:Array(16).fill(''),r16:Array(8).fill(''),qf:Array(4).fill(''),sf:Array(2).fill(''),f:Array(1).fill('')};
-function pairFor(roundKey,idx){
- if(roundKey==='r32') return initial[idx];
+const picks={r32:Array(16).fill(''),r16:Array(8).fill(''),qf:Array(4).fill(''),sf:Array(2).fill(''),f:Array(1).fill('')};
+function pairSource(roundKey,i,side){
+ if(roundKey==='r32') return initial[i][side];
  const prev={r16:'r32',qf:'r16',sf:'qf',f:'sf'}[roundKey];
- return [state[prev][idx*2]||'Velg forrige kamp', state[prev][idx*2+1]||'Velg forrige kamp'];
+ return picks[prev][i*2+side] || 'Velg forrige kamp';
 }
-function clearFrom(roundKey,idx){
- const order=['r32','r16','qf','sf','f'];
- const start=order.indexOf(roundKey);
- let affected=[idx];
- for(let r=start+1;r<order.length;r++){
-   const k=order[r];
-   const next=new Set();
-   affected.forEach(i=>{ const ni=Math.floor(i/2); state[k][ni]=''; next.add(ni); });
-   affected=[...next];
- }
+function clearFrom(roundKey,index){
+ const order=['r32','r16','qf','sf','f']; const pos=order.indexOf(roundKey);
+ for(let r=pos+1;r<order.length;r++) picks[order[r]].fill('');
 }
-function choose(roundKey,idx,team){
- if(team==='Velg forrige kamp') return;
- state[roundKey][idx]=team;
- clearFrom(roundKey,idx);
- render();
-}
+function save(){localStorage.setItem('haugar_vm_picks',JSON.stringify({picks,name:val('name'),phone:val('phone'),finalScore:val('finalScore'),topScorer:val('topScorer'),bestPlayer:val('bestPlayer')}));}
+function load(){try{const d=JSON.parse(localStorage.getItem('haugar_vm_picks')||'{}'); if(d.picks) for(const k of Object.keys(picks)) picks[k]=d.picks[k]||picks[k]; ['name','phone','finalScore','topScorer','bestPlayer'].forEach(id=>{if(d[id]) document.getElementById(id).value=d[id];});}catch(e){}}
+function val(id){return document.getElementById(id).value.trim();}
 function render(){
  const root=document.getElementById('bracket'); root.innerHTML='';
- rounds.forEach(round=>{
-   const rt=document.createElement('div');rt.className='round-title';rt.innerHTML='<h3>'+round.title+'</h3><span class="badge">'+round.points+' p</span>';root.appendChild(rt);
-   const grid=document.createElement('div');grid.className='matches';
-   for(let i=0;i<round.count;i++){
-     const teams=pairFor(round.key,i);
-     const m=document.createElement('div');m.className='match';
-     const label=document.createElement('div');label.className='match-label';label.textContent='Kamp '+(i+1+(round.key==='r32'?0:round.key==='r16'?16:round.key==='qf'?24:round.key==='sf'?28:30));m.appendChild(label);
-     const tg=document.createElement('div');tg.className='teams';
-     teams.forEach(t=>{const b=document.createElement('button');b.type='button';b.className='team'+(state[round.key][i]===t?' selected':'');b.textContent=t;b.disabled=(t==='Velg forrige kamp');b.addEventListener('click',()=>choose(round.key,i,t));tg.appendChild(b);});
-     m.appendChild(tg);grid.appendChild(m);
-   }
-   root.appendChild(grid);
- });
+ rounds.forEach(r=>{const sec=document.createElement('div'); sec.className='round'; sec.innerHTML=`<div class="round-title"><h3>${r.title}</h3><span class="badge">${r.points} p</span></div>`; const list=document.createElement('div'); list.className='matches';
+  for(let i=0;i<r.count;i++){const a=pairSource(r.key,i,0), b=pairSource(r.key,i,1), chosen=picks[r.key][i]; const m=document.createElement('div'); m.className='match'; m.innerHTML=`<div class="match-name">Kamp ${i+1 + (r.key==='r32'?0:r.key==='r16'?16:r.key==='qf'?24:r.key==='sf'?28:30)}</div>`; const teams=document.createElement('div'); teams.className='teams'; [a,b].forEach(team=>{const btn=document.createElement('button'); btn.type='button'; btn.className='team'+(team==='Velg forrige kamp'?' placeholder':'')+(chosen===team?' selected':''); btn.textContent=team; btn.disabled=(team==='Velg forrige kamp'); btn.onclick=()=>{picks[r.key][i]=team; clearFrom(r.key,i); save(); render(); makeLine(false);}; teams.appendChild(btn);}); m.appendChild(teams); list.appendChild(m); }
+  sec.appendChild(list); root.appendChild(sec); });
 }
-function values(){return [...state.r32,...state.r16,...state.qf,...state.sf,...state.f];}
-function makeLine(){
- const name=document.getElementById('name').value.trim();const mobile=document.getElementById('mobile').value.trim();
- const extras=[document.getElementById('finalScore').value.trim(),document.getElementById('topScorer').value.trim(),document.getElementById('bestPlayer').value.trim()];
- const line=[name,mobile,...values(),...extras].join(';');document.getElementById('summary').value=line;return line;
-}
-document.getElementById('makeLine').addEventListener('click',makeLine);
-document.getElementById('copyLine').addEventListener('click',async()=>{const line=makeLine();try{await navigator.clipboard.writeText(line);alert('Innsendingslinje kopiert.');}catch(e){document.getElementById('summary').select();document.execCommand('copy');alert('Innsendingslinje kopiert.');}});
-document.getElementById('sendMail').addEventListener('click',()=>{const line=makeLine();const name=document.getElementById('name').value.trim()||'Deltaker';const subject=encodeURIComponent('VM-tipping - '+name);const body=encodeURIComponent('Hei!\n\nHer er mitt tips til Haugarfamiliens VM-tipping:\n\n'+line+'\n\nHilsen '+name);location.href='mailto:post@haugar.no?subject='+subject+'&body='+body;});
-document.getElementById('reset').addEventListener('click',()=>{if(confirm('Nullstille alle tips?')){Object.keys(state).forEach(k=>state[k].fill(''));['name','mobile','finalScore','topScorer','bestPlayer','summary'].forEach(id=>document.getElementById(id).value='');render();}});
-render();
-})();
+function makeLine(show=true){const all=[val('name'),val('phone'),...picks.r32,...picks.r16,...picks.qf,...picks.sf,...picks.f,val('finalScore'),val('topScorer'),val('bestPlayer')]; const line=all.map(x=>(x||'').replaceAll(';',',')).join(';'); document.getElementById('line').value=line; const subject=encodeURIComponent('VM-tipping - '+(val('name')||'deltaker')); const body=encodeURIComponent('Hei!\n\nHer er mitt tips:\n\n'+line+'\n\nNavn: '+val('name')+'\nMobil: '+val('phone')); document.getElementById('mailBtn').href='mailto:post@haugar.no?subject='+subject+'&body='+body; if(show) alert('Innsendingslinje er laget.'); return line;}
+document.getElementById('makeLine').onclick=()=>makeLine(true);
+document.getElementById('copyLine').onclick=async()=>{const line=makeLine(false); try{await navigator.clipboard.writeText(line); alert('Kopiert!');}catch(e){document.getElementById('line').select(); document.execCommand('copy'); alert('Kopiert!');}};
+document.getElementById('mailBtn').onclick=()=>makeLine(false);
+document.getElementById('resetBtn').onclick=()=>{if(confirm('Nullstille hele kupongen?')){Object.keys(picks).forEach(k=>picks[k].fill('')); ['name','phone','finalScore','topScorer','bestPlayer','line'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem('haugar_vm_picks'); render();}};
+['name','phone','finalScore','topScorer','bestPlayer'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{save();makeLine(false);}));
+load(); render(); makeLine(false);
 </script>
-</body></html>
+</body>
+</html>
