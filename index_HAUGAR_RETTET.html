@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Haugarfamiliens VM-tipping</title>
+<style>
+:root{--blue:#0b3f95;--blue2:#072b68;--gold:#f0c84b;--bg:#eef3fb;--text:#0b1d3a;--muted:#647084;--card:#fff;--line:#d6deea;--ok:#0b8f55}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:white;text-align:center;padding:34px 16px 30px;border-bottom:8px solid var(--gold)}h1{font-size:clamp(32px,7vw,68px);line-height:.95;margin:0 0 18px;font-weight:900;letter-spacing:1px;text-transform:uppercase}header p{font-size:clamp(17px,3vw,26px);margin:0 auto;max-width:900px}.wrap{max-width:1180px;margin:0 auto;padding:22px 14px 60px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;margin:0 0 22px;box-shadow:0 10px 30px rgba(5,31,77,.08)}h2{font-size:34px;margin:0 0 18px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;font-weight:800;font-size:18px;margin:10px 0 8px}input,textarea{width:100%;font-size:20px;border:2px solid var(--line);border-radius:14px;padding:15px 16px;background:#fff;color:var(--text)}.points{font-size:18px;line-height:1.45;color:var(--muted)}.round{margin:28px 0}.round-title{display:flex;align-items:center;gap:10px;border-bottom:4px solid var(--blue);padding-bottom:8px;margin-bottom:14px}.round-title h3{font-size:28px;margin:0}.badge{background:var(--gold);color:#4a3500;border-radius:999px;padding:4px 10px;font-weight:900}.matches{display:grid;grid-template-columns:1fr 1fr;gap:14px}.match{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}.match-name{font-size:13px;color:var(--muted);font-weight:800;margin:0 0 8px}.teams{display:grid;grid-template-columns:1fr 1fr;gap:8px}.team{min-height:50px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--text);font-size:18px;font-weight:800;padding:10px;cursor:pointer}.team:disabled{opacity:.45;cursor:not-allowed}.team.selected{background:var(--blue);border-color:var(--gold);color:white}.team.placeholder{color:#8b95a5;font-weight:700}.extras{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.actions{display:grid;gap:12px}.btn{border:0;border-radius:14px;padding:18px 16px;font-weight:900;font-size:21px;cursor:pointer;text-align:center;text-decoration:none}.btn.gold{background:var(--gold);color:#17264a}.btn.blue{background:var(--blue);color:white}.btn.white{background:#fff;color:var(--blue);border:2px solid var(--line)}#status{font-weight:900;color:var(--ok);margin-top:10px}.output{height:140px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px}.small{color:var(--muted);font-size:15px;line-height:1.4}@media(max-width:760px){.grid2,.matches,.extras{grid-template-columns:1fr}h2{font-size:30px}.card{padding:18px}.team{font-size:16px;min-height:48px}.round-title h3{font-size:24px}}@media print{header,.actions,.small,#status{display:none}.wrap{padding:0}.card{box-shadow:none;border:1px solid #aaa;break-inside:avoid}.matches{grid-template-columns:1fr 1fr}.team{border:1px solid #aaa;color:#000;background:#fff}.team.selected{background:#eee;color:#000}}
+</style>
+</head>
+<body>
+<header><h1>Haugarfamiliens<br>VM-tipping</h1><p>Trykk på laget du tror går videre. Neste runde oppdateres automatisk.</p></header>
+<main class="wrap">
+<section class="card"><h2>Deltaker</h2><div class="grid2"><div><label for="name">Navn</label><input id="name" placeholder="Skriv navn" autocomplete="name"></div><div><label for="phone">Mobil</label><input id="phone" placeholder="Skriv mobilnummer" inputmode="tel"></div></div><div id="status">Interaktivitet: OK</div></section>
+<section class="card"><h2>Poeng</h2><div class="points"><b>1/16:</b> 1 poeng per riktig lag · <b>1/8:</b> 2 poeng · <b>Kvart:</b> 3 poeng · <b>Semi:</b> 4 poeng · <b>Vinner:</b> 5 poeng · finaleresultat/toppscorer/beste spiller: 3 poeng hver.</div></section>
+<section class="card"><h2>Sluttspilltre</h2><div id="bracket"></div></section>
+<section class="card"><h2>Ekstra tips</h2><div class="extras"><div><label for="finalScore">Finaleresultat</label><input id="finalScore" placeholder="f.eks. 2-1"></div><div><label for="topScorer">Toppscorer</label><input id="topScorer" placeholder="Navn på spiller"></div><div><label for="bestPlayer">Beste spiller</label><input id="bestPlayer" placeholder="Navn på spiller"></div></div></section>
+<section class="card"><h2>Send inn</h2><div class="actions"><button class="btn gold" id="makeLine">Lag innsendingslinje</button><button class="btn white" id="copyLine">Kopier innsendingslinje</button><a class="btn blue" id="mailBtn" href="#">📧 Send inn tips</a><button class="btn white" onclick="window.print()">Skriv ut</button><button class="btn white" id="resetBtn">Nullstill</button></div><label for="line">Innsendingslinje</label><textarea id="line" class="output" readonly placeholder="Innsendingslinjen kommer her."></textarea><p class="small">Send-knappen åpner e-post. Dersom e-postappen ikke tar med teksten, kopier innsendingslinjen og lim den inn i e-posten.</p></section>
+</main>
+<script>
+const initial=[['Sør-Afrika','Canada'],['Brasil','Japan'],['Tyskland','Paraguay'],['Nederland','Marokko'],['Elfenbenskysten','Norge'],['Frankrike','Sverige'],['Mexico','Ecuador'],['England','DR Kongo'],['Belgia','Senegal'],['USA','Bosnia-Hercegovina'],['Spania','Østerrike'],['Portugal','Kroatia'],['Sveits','Algerie'],['Australia','Egypt'],['Argentina','Kapp Verde'],['Colombia','Ghana']];
+const rounds=[{key:'r32',title:'1/16-finale',points:1,count:16},{key:'r16',title:'1/8-finale',points:2,count:8},{key:'qf',title:'Kvartfinale',points:3,count:4},{key:'sf',title:'Semifinale',points:4,count:2},{key:'f',title:'Finale',points:5,count:1}];
+const picks={r32:Array(16).fill(''),r16:Array(8).fill(''),qf:Array(4).fill(''),sf:Array(2).fill(''),f:Array(1).fill('')};
+
+// Korrekt VM-sluttspilloppsett basert på kampene i kupongen over.
+// Tallene er nullbaserte indeksnumre for vinnerne i forrige runde.
+const links={
+ r16:[[0,3],[2,5],[1,4],[6,7],[11,10],[9,8],[14,13],[12,15]],
+ qf:[[1,0],[4,5],[2,3],[6,7]],
+ sf:[[0,1],[2,3]],
+ f:[[0,1]]
+};
+const prevRound={r16:'r32',qf:'r16',sf:'qf',f:'sf'};
+
+function pairSource(roundKey,i,side){
+ if(roundKey==='r32') return initial[i][side];
+ const prev=prevRound[roundKey];
+ const sourceIndex=links[roundKey][i][side];
+ return picks[prev][sourceIndex] || 'Velg forrige kamp';
+}
+function validatePicks(){
+ ['r16','qf','sf','f'].forEach(roundKey=>{
+  for(let i=0;i<picks[roundKey].length;i++){
+   const a=pairSource(roundKey,i,0);
+   const b=pairSource(roundKey,i,1);
+   const chosen=picks[roundKey][i];
+   if(chosen && chosen!==a && chosen!==b) picks[roundKey][i]='';
+  }
+ });
+}
+function save(){localStorage.setItem('haugar_vm_picks',JSON.stringify({picks,name:val('name'),phone:val('phone'),finalScore:val('finalScore'),topScorer:val('topScorer'),bestPlayer:val('bestPlayer')}));}
+function load(){try{const d=JSON.parse(localStorage.getItem('haugar_vm_picks')||'{}'); if(d.picks) for(const k of Object.keys(picks)) picks[k]=d.picks[k]||picks[k]; ['name','phone','finalScore','topScorer','bestPlayer'].forEach(id=>{if(d[id]) document.getElementById(id).value=d[id];});}catch(e){}}
+function val(id){return document.getElementById(id).value.trim();}
+function render(){
+ validatePicks();
+ const root=document.getElementById('bracket'); root.innerHTML='';
+ rounds.forEach(r=>{const sec=document.createElement('div'); sec.className='round'; sec.innerHTML=`<div class="round-title"><h3>${r.title}</h3><span class="badge">${r.points} p</span></div>`; const list=document.createElement('div'); list.className='matches';
+  for(let i=0;i<r.count;i++){const a=pairSource(r.key,i,0), b=pairSource(r.key,i,1), chosen=picks[r.key][i]; const m=document.createElement('div'); m.className='match'; m.innerHTML=`<div class="match-name">Kamp ${i+1 + (r.key==='r32'?0:r.key==='r16'?16:r.key==='qf'?24:r.key==='sf'?28:30)}</div>`; const teams=document.createElement('div'); teams.className='teams'; [a,b].forEach(team=>{const btn=document.createElement('button'); btn.type='button'; btn.className='team'+(team==='Velg forrige kamp'?' placeholder':'')+(chosen===team?' selected':''); btn.textContent=team; btn.disabled=(team==='Velg forrige kamp'); btn.onclick=()=>{picks[r.key][i]=team; validatePicks(); save(); render(); makeLine(false);}; teams.appendChild(btn);}); m.appendChild(teams); list.appendChild(m); }
+  sec.appendChild(list); root.appendChild(sec); });
+}
+function makeLine(show=true){const all=[val('name'),val('phone'),...picks.r32,...picks.r16,...picks.qf,...picks.sf,...picks.f,val('finalScore'),val('topScorer'),val('bestPlayer')]; const line=all.map(x=>(x||'').replaceAll(';',',')).join(';'); document.getElementById('line').value=line; const subject=encodeURIComponent('VM-tipping - '+(val('name')||'deltaker')); const body=encodeURIComponent('Hei!\n\nHer er mitt tips:\n\n'+line+'\n\nNavn: '+val('name')+'\nMobil: '+val('phone')); document.getElementById('mailBtn').href='mailto:post@haugar.no?subject='+subject+'&body='+body; if(show) alert('Innsendingslinje er laget.'); return line;}
+document.getElementById('makeLine').onclick=()=>makeLine(true);
+document.getElementById('copyLine').onclick=async()=>{const line=makeLine(false); try{await navigator.clipboard.writeText(line); alert('Kopiert!');}catch(e){document.getElementById('line').select(); document.execCommand('copy'); alert('Kopiert!');}};
+document.getElementById('mailBtn').onclick=()=>makeLine(false);
+document.getElementById('resetBtn').onclick=()=>{if(confirm('Nullstille hele kupongen?')){Object.keys(picks).forEach(k=>picks[k].fill('')); ['name','phone','finalScore','topScorer','bestPlayer','line'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem('haugar_vm_picks'); render();}};
+['name','phone','finalScore','topScorer','bestPlayer'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{save();makeLine(false);}));
+load(); validatePicks(); render(); makeLine(false);
+</script>
+</body>
+</html>
