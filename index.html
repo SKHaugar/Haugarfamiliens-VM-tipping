@@ -21,22 +21,41 @@
 const initial=[['Sør-Afrika','Canada'],['Brasil','Japan'],['Tyskland','Paraguay'],['Nederland','Marokko'],['Elfenbenskysten','Norge'],['Frankrike','Sverige'],['Mexico','Ecuador'],['England','DR Kongo'],['Belgia','Senegal'],['USA','Bosnia-Hercegovina'],['Spania','Østerrike'],['Portugal','Kroatia'],['Sveits','Algerie'],['Australia','Egypt'],['Argentina','Kapp Verde'],['Colombia','Ghana']];
 const rounds=[{key:'r32',title:'1/16-finale',points:1,count:16},{key:'r16',title:'1/8-finale',points:2,count:8},{key:'qf',title:'Kvartfinale',points:3,count:4},{key:'sf',title:'Semifinale',points:4,count:2},{key:'f',title:'Finale',points:5,count:1}];
 const picks={r32:Array(16).fill(''),r16:Array(8).fill(''),qf:Array(4).fill(''),sf:Array(2).fill(''),f:Array(1).fill('')};
+
+// Korrekt VM-sluttspilloppsett basert på kampene i kupongen over.
+// Tallene er nullbaserte indeksnumre for vinnerne i forrige runde.
+const links={
+ r16:[[0,3],[2,5],[1,4],[6,7],[11,10],[9,8],[14,13],[12,15]],
+ qf:[[1,0],[4,5],[2,3],[6,7]],
+ sf:[[0,1],[2,3]],
+ f:[[0,1]]
+};
+const prevRound={r16:'r32',qf:'r16',sf:'qf',f:'sf'};
+
 function pairSource(roundKey,i,side){
  if(roundKey==='r32') return initial[i][side];
- const prev={r16:'r32',qf:'r16',sf:'qf',f:'sf'}[roundKey];
- return picks[prev][i*2+side] || 'Velg forrige kamp';
+ const prev=prevRound[roundKey];
+ const sourceIndex=links[roundKey][i][side];
+ return picks[prev][sourceIndex] || 'Velg forrige kamp';
 }
-function clearFrom(roundKey,index){
- const order=['r32','r16','qf','sf','f']; const pos=order.indexOf(roundKey);
- for(let r=pos+1;r<order.length;r++) picks[order[r]].fill('');
+function validatePicks(){
+ ['r16','qf','sf','f'].forEach(roundKey=>{
+  for(let i=0;i<picks[roundKey].length;i++){
+   const a=pairSource(roundKey,i,0);
+   const b=pairSource(roundKey,i,1);
+   const chosen=picks[roundKey][i];
+   if(chosen && chosen!==a && chosen!==b) picks[roundKey][i]='';
+  }
+ });
 }
 function save(){localStorage.setItem('haugar_vm_picks',JSON.stringify({picks,name:val('name'),phone:val('phone'),finalScore:val('finalScore'),topScorer:val('topScorer'),bestPlayer:val('bestPlayer')}));}
 function load(){try{const d=JSON.parse(localStorage.getItem('haugar_vm_picks')||'{}'); if(d.picks) for(const k of Object.keys(picks)) picks[k]=d.picks[k]||picks[k]; ['name','phone','finalScore','topScorer','bestPlayer'].forEach(id=>{if(d[id]) document.getElementById(id).value=d[id];});}catch(e){}}
 function val(id){return document.getElementById(id).value.trim();}
 function render(){
+ validatePicks();
  const root=document.getElementById('bracket'); root.innerHTML='';
  rounds.forEach(r=>{const sec=document.createElement('div'); sec.className='round'; sec.innerHTML=`<div class="round-title"><h3>${r.title}</h3><span class="badge">${r.points} p</span></div>`; const list=document.createElement('div'); list.className='matches';
-  for(let i=0;i<r.count;i++){const a=pairSource(r.key,i,0), b=pairSource(r.key,i,1), chosen=picks[r.key][i]; const m=document.createElement('div'); m.className='match'; m.innerHTML=`<div class="match-name">Kamp ${i+1 + (r.key==='r32'?0:r.key==='r16'?16:r.key==='qf'?24:r.key==='sf'?28:30)}</div>`; const teams=document.createElement('div'); teams.className='teams'; [a,b].forEach(team=>{const btn=document.createElement('button'); btn.type='button'; btn.className='team'+(team==='Velg forrige kamp'?' placeholder':'')+(chosen===team?' selected':''); btn.textContent=team; btn.disabled=(team==='Velg forrige kamp'); btn.onclick=()=>{picks[r.key][i]=team; clearFrom(r.key,i); save(); render(); makeLine(false);}; teams.appendChild(btn);}); m.appendChild(teams); list.appendChild(m); }
+  for(let i=0;i<r.count;i++){const a=pairSource(r.key,i,0), b=pairSource(r.key,i,1), chosen=picks[r.key][i]; const m=document.createElement('div'); m.className='match'; m.innerHTML=`<div class="match-name">Kamp ${i+1 + (r.key==='r32'?0:r.key==='r16'?16:r.key==='qf'?24:r.key==='sf'?28:30)}</div>`; const teams=document.createElement('div'); teams.className='teams'; [a,b].forEach(team=>{const btn=document.createElement('button'); btn.type='button'; btn.className='team'+(team==='Velg forrige kamp'?' placeholder':'')+(chosen===team?' selected':''); btn.textContent=team; btn.disabled=(team==='Velg forrige kamp'); btn.onclick=()=>{picks[r.key][i]=team; validatePicks(); save(); render(); makeLine(false);}; teams.appendChild(btn);}); m.appendChild(teams); list.appendChild(m); }
   sec.appendChild(list); root.appendChild(sec); });
 }
 function makeLine(show=true){const all=[val('name'),val('phone'),...picks.r32,...picks.r16,...picks.qf,...picks.sf,...picks.f,val('finalScore'),val('topScorer'),val('bestPlayer')]; const line=all.map(x=>(x||'').replaceAll(';',',')).join(';'); document.getElementById('line').value=line; const subject=encodeURIComponent('VM-tipping - '+(val('name')||'deltaker')); const body=encodeURIComponent('Hei!\n\nHer er mitt tips:\n\n'+line+'\n\nNavn: '+val('name')+'\nMobil: '+val('phone')); document.getElementById('mailBtn').href='mailto:post@haugar.no?subject='+subject+'&body='+body; if(show) alert('Innsendingslinje er laget.'); return line;}
@@ -45,7 +64,7 @@ document.getElementById('copyLine').onclick=async()=>{const line=makeLine(false)
 document.getElementById('mailBtn').onclick=()=>makeLine(false);
 document.getElementById('resetBtn').onclick=()=>{if(confirm('Nullstille hele kupongen?')){Object.keys(picks).forEach(k=>picks[k].fill('')); ['name','phone','finalScore','topScorer','bestPlayer','line'].forEach(id=>document.getElementById(id).value=''); localStorage.removeItem('haugar_vm_picks'); render();}};
 ['name','phone','finalScore','topScorer','bestPlayer'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{save();makeLine(false);}));
-load(); render(); makeLine(false);
+load(); validatePicks(); render(); makeLine(false);
 </script>
 </body>
 </html>
