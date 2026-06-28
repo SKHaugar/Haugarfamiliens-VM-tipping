@@ -1,0 +1,20 @@
+HAUGARFAMILIENS VM-TIPPING – RASK PUBLISERING
+
+1. Gå til https://app.netlify.com/drop
+2. Dra hele mappen 'haugar_vm_netlify' inn i feltet på siden.
+3. Vent noen sekunder.
+4. Netlify gir deg en lenke, f.eks. https://noe-rart.netlify.app
+5. Test lenken i Safari på mobil.
+6. Legg lenken inn i Spond-nyheten.
+
+VIKTIG:
+- Ikke åpne index.html direkte på iPhone. Da kan JavaScript blokkeres.
+- Siden må åpnes via en https-lenke.
+- Spond Club kan ikke laste opp HTML-filer direkte, men en Netlify-lenke fungerer fint.
+
+INNSENDING:
+- Deltaker fyller inn navn/mobil og tipper kampene.
+- Trykker 'Lag innsendingslinje'.
+- Trykker 'Send inn tips'.
+- E-postprogrammet åpnes med tipset i e-posten til post@haugar.no.
+
